@@ -814,8 +814,8 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
         _maskedColorPaint.shader = null;
       } else {
         _maskedColorPaint.shader = ui.Gradient.linear(
-          Offset(viewSize.width / 2, 0),
-          Offset(viewSize.width / 2, viewSize.height),
+          Offset(chartViewSize.width / 2, 0),
+          Offset(chartViewSize.width / 2, chartViewSize.height),
           barData.colors,
           barData.colorStops,
         );
@@ -827,7 +827,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     barPath = barPath.toDashedPath(barData.dashArray);
 
     if (barData.toColorLineByDataY) {
-      canvas.saveLayer(Rect.fromLTWH(0, 0, viewSize.width, viewSize.height), Paint());
+      canvas.saveLayer(Rect.fromLTWH(0, 0, chartViewSize.width, chartViewSize.height), Paint());
     }
     canvas.drawPath(barPath, _barPaint);
 
