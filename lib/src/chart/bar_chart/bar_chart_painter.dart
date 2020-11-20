@@ -451,6 +451,8 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
         }
       }
 
+      print(rightTitles.horizontalExtraLinesY);
+
       if (rightTitles.horizontalExtraLinesText.isNotEmpty) {
         final double verticalSeek = rightTitles.horizontalExtraLinesY[0];
         double x = drawSize.width + getLeftOffsetDrawSize();
