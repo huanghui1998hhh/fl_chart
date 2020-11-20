@@ -256,6 +256,9 @@ class SideTitles with EquatableMixin {
   final double interval;
   final double rotateAngle;
   final CheckToShowTitle checkToShowTitle;
+  final List<double> horizontalExtraLinesY;
+  final List<String> horizontalExtraLinesText;
+  final List<TextStyle> horizontalExtraLinesTextStyle;
 
   /// It draws some title on all axis, per each axis value,
   /// [showTitles] determines showing or hiding this side,
@@ -284,6 +287,9 @@ class SideTitles with EquatableMixin {
     double interval,
     double rotateAngle,
     CheckToShowTitle checkToShowTitle,
+    List<double> horizontalExtraLinesY,
+    List<String> horizontalExtraLinesText,
+    List<TextStyle> horizontalExtraLinesTextStyle,
   })  : showTitles = showTitles ?? false,
         getTitles = getTitles ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22,
@@ -291,7 +297,10 @@ class SideTitles with EquatableMixin {
         margin = margin ?? 6,
         interval = interval,
         rotateAngle = rotateAngle ?? 0.0,
-        checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle {
+        checkToShowTitle = checkToShowTitle ?? defaultCheckToShowTitle,
+        horizontalExtraLinesY = horizontalExtraLinesY ?? [],
+        horizontalExtraLinesText = horizontalExtraLinesText ?? [],
+        horizontalExtraLinesTextStyle = horizontalExtraLinesTextStyle ?? [] {
     if (interval == 0) {
       throw ArgumentError("SideTitles.interval couldn't be zero");
     }
@@ -308,6 +317,9 @@ class SideTitles with EquatableMixin {
       interval: lerpDouble(a.interval, b.interval, t),
       rotateAngle: lerpDouble(a.rotateAngle, b.rotateAngle, t),
       checkToShowTitle: b.checkToShowTitle,
+      horizontalExtraLinesY: b.horizontalExtraLinesY,
+      horizontalExtraLinesText: b.horizontalExtraLinesText,
+      horizontalExtraLinesTextStyle: b.horizontalExtraLinesTextStyle,
     );
   }
 
@@ -322,6 +334,9 @@ class SideTitles with EquatableMixin {
         interval,
         rotateAngle,
         checkToShowTitle,
+        horizontalExtraLinesY,
+        horizontalExtraLinesText,
+        horizontalExtraLinesTextStyle
       ];
 }
 

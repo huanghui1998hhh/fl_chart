@@ -452,6 +452,30 @@ class BarChartPainter extends AxisChartPainter<BarChartData> with TouchHandler<B
       }
     }
 
+    if (rightTitles.horizontalExtraLinesText.isNotEmpty) {
+      double verticalSeek = rightTitles.horizontalExtraLinesY[0];
+      double x = drawSize.width + getLeftOffsetDrawSize();
+      double y = getPixelY(verticalSeek, drawSize);
+      final String text = rightTitles.horizontalExtraLinesText[0];
+      final TextSpan span =
+          TextSpan(style: rightTitles.horizontalExtraLinesTextStyle[0], text: text);
+      final TextPainter tp = TextPainter(
+          text: span,
+          textAlign: TextAlign.center,
+          textDirection: TextDirection.ltr,
+          textScaleFactor: textScale);
+      tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+      x += rightTitles.margin;
+      y -= tp.height / 2;
+      canvas.save();
+      canvas.translate(x + tp.width / 2, y + tp.height / 2);
+      canvas.rotate(radians(rightTitles.rotateAngle));
+      canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+      y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+      tp.paint(canvas, Offset(x, y));
+      canvas.restore();
+    }
+
     // Bottom titles
     final bottomTitles = targetData.titlesData.bottomTitles;
     if (bottomTitles.showTitles) {
