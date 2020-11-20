@@ -1010,6 +1010,12 @@ class HorizontalLine extends FlLine with EquatableMixin {
   /// Draws a text label over the line.
   final HorizontalLineLabel label;
 
+  bool showTitle;
+
+  String title;
+
+  TextStyle titleStyle;
+
   /// [LineChart] draws horizontal lines from left to right side of the chart
   /// in the provided [y] value, and color it using [color].
   /// You can define the thickness using [strokeWidth]
@@ -1135,11 +1141,21 @@ abstract class FlLineLabel with EquatableMixin {
   /// Aligns the text on the line.
   final Alignment alignment;
 
+  final bool showLeft;
+
+  final bool ifStackHideUnderTitle;
+
   /// Draws a title on the line, align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
   /// [show] determines showing label or not.
-  FlLineLabel({this.show, this.padding, this.style, this.alignment});
+  FlLineLabel(
+      {this.show,
+      this.padding,
+      this.style,
+      this.showLeft,
+      this.alignment,
+      this.ifStackHideUnderTitle});
 
   /// Used for equality check, see [EquatableMixin].
   @override
@@ -1148,6 +1164,8 @@ abstract class FlLineLabel with EquatableMixin {
         padding,
         style,
         alignment,
+        showLeft,
+        ifStackHideUnderTitle,
       ];
 }
 
@@ -1170,6 +1188,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
     TextStyle style,
     Alignment alignment,
     bool show = false,
+    bool showLeft,
+    bool ifStackHideUnderTitle,
     String Function(HorizontalLine) labelResolver,
   })  : labelResolver = labelResolver ?? HorizontalLineLabel.defaultLineLabelResolver,
         super(
@@ -1182,6 +1202,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
                 fontSize: 14,
               ),
           alignment: alignment ?? Alignment.topLeft,
+          showLeft: showLeft,
+          ifStackHideUnderTitle: ifStackHideUnderTitle ?? false,
         );
 
   /// Lerps a [HorizontalLineLabel] based on [t] value, check [Tween.lerp].
@@ -1192,6 +1214,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
       alignment: Alignment.lerp(a.alignment, b.alignment, t),
       labelResolver: b.labelResolver,
       show: b.show,
+      showLeft: b.showLeft,
+      ifStackHideUnderTitle: b.ifStackHideUnderTitle,
     );
   }
 
@@ -1203,6 +1227,8 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         padding,
         style,
         alignment,
+        showLeft,
+        ifStackHideUnderTitle,
       ];
 }
 

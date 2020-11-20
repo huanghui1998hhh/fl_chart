@@ -840,10 +840,25 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
   }
 
   void _drawTitles(Canvas canvas, Size viewSize) {
+    final List<HorizontalLine> _leftExtraTitle = [];
+    final List<HorizontalLine> _rightExtraTitle = [];
+
     if (!targetData.titlesData.show) {
       return;
     }
     viewSize = getChartUsableDrawSize(viewSize);
+
+    for (var i = 0; i < data?.extraLinesData?.horizontalLines?.length ?? 0; i++) {
+      final e = data.extraLinesData.horizontalLines[0];
+      final e1 = e.label;
+      if (e1.show) {
+        if (e1.showLeft) {
+          _leftExtraTitle.add(e);
+        } else {
+          _rightExtraTitle.add(e);
+        }
+      }
+    }
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;
@@ -930,10 +945,42 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     final rightInterval =
         rightTitles.interval ?? getEfficientInterval(viewSize.height, data.verticalDiff);
     if (rightTitles.showTitles) {
+      final List<List<double>> _avoidList = [];
+      if (_rightExtraTitle.isNotEmpty) {
+        for (HorizontalLine e in _rightExtraTitle) {
+          final e1 = e.label;
+          final double verticalSeek = e.y;
+          double x = viewSize.width + getLeftOffsetDrawSize();
+          double y = getPixelY(verticalSeek, viewSize);
+          final String text = e1.labelResolver(e);
+          final TextSpan span = TextSpan(style: e1.style, text: text);
+          final TextPainter tp = TextPainter(
+              text: span,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              textScaleFactor: textScale);
+          tp.layout(maxWidth: getExtraNeededHorizontalSpace());
+          x += rightTitles.margin;
+          if (e1.ifStackHideUnderTitle) {
+            _avoidList.add([y - (tp.height / 2), y + (tp.height / 2)]);
+          }
+          y -= tp.height / 2;
+          canvas.save();
+          canvas.translate(x + tp.width / 2, y + tp.height / 2);
+          canvas.rotate(radians(rightTitles.rotateAngle));
+          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+          y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+          tp.paint(canvas, Offset(x, y));
+          canvas.restore();
+        }
+      }
+
       double verticalSeek = data.minY;
       while (verticalSeek <= data.maxY) {
         if (rightTitles.checkToShowTitle(
             data.minY, data.maxY, rightTitles, rightInterval, verticalSeek)) {
+          bool _check = true;
+
           double x = viewSize.width + getLeftOffsetDrawSize();
           double y = getPixelY(verticalSeek, viewSize);
 
@@ -948,15 +995,30 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
               textScaleFactor: textScale);
           tp.layout(maxWidth: getExtraNeededHorizontalSpace());
 
-          x += rightTitles.margin;
-          y -= tp.height / 2;
-          canvas.save();
-          canvas.translate(x + tp.width / 2, y + tp.height / 2);
-          canvas.rotate(radians(rightTitles.rotateAngle));
-          canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
-          y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
-          tp.paint(canvas, Offset(x, y));
-          canvas.restore();
+          if (_avoidList.isNotEmpty) {
+            double _yTop = y + (tp.height / 2);
+            double _yBottom = y - (tp.height / 2);
+            for (var i = 0; i < _avoidList.length; i++) {
+              if (_yTop <= _avoidList[i][0] || _yBottom >= _avoidList[i][1]) {
+              } else {
+                _check = false;
+                break;
+              }
+            }
+          }
+
+          if (_check) {
+            x += rightTitles.margin;
+            y -= tp.height / 2;
+
+            canvas.save();
+            canvas.translate(x + tp.width / 2, y + tp.height / 2);
+            canvas.rotate(radians(rightTitles.rotateAngle));
+            canvas.translate(-(x + tp.width / 2), -(y + tp.height / 2));
+            y += translateRotatedPosition(tp.width, leftTitles.rotateAngle);
+            tp.paint(canvas, Offset(x, y));
+            canvas.restore();
+          }
         }
 
         if (data.maxY - verticalSeek < rightInterval && data.maxY != verticalSeek) {
@@ -1048,7 +1110,7 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
           canvas.drawImage(line.image, centeredImageOffset, _imagePaint);
         }
 
-        if (line.label != null && line.label.show) {
+        if (line.label != null && line.label.show && line.label.showLeft == null) {
           final HorizontalLineLabel label = line.label;
           final TextStyle style = TextStyle(fontSize: 11, color: line.color).merge(label.style);
           final EdgeInsets padding = label.padding ?? EdgeInsets.zero;
