@@ -848,17 +848,18 @@ class LineChartPainter extends AxisChartPainter<LineChartData>
     }
     viewSize = getChartUsableDrawSize(viewSize);
 
-    for (var i = 0; i < data?.extraLinesData?.horizontalLines?.length ?? 0; i++) {
-      final e = data.extraLinesData.horizontalLines[0];
-      final e1 = e.label;
-      if (e1.show) {
-        if (e1.showLeft) {
-          _leftExtraTitle.add(e);
-        } else {
-          _rightExtraTitle.add(e);
+    if (data.extraLinesData != null)
+      for (var i = 0; i < data.extraLinesData.horizontalLines?.length ?? 0; i++) {
+        final e = data.extraLinesData.horizontalLines[0];
+        final e1 = e.label;
+        if (e1.show && e1.showLeft != null) {
+          if (e1.showLeft) {
+            _leftExtraTitle.add(e);
+          } else {
+            _rightExtraTitle.add(e);
+          }
         }
       }
-    }
 
     // Left Titles
     final leftTitles = targetData.titlesData.leftTitles;

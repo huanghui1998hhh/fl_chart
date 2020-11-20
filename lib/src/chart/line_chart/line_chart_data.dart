@@ -1150,7 +1150,7 @@ abstract class FlLineLabel with EquatableMixin {
   /// size, ... of the text.
   /// [show] determines showing label or not.
   FlLineLabel(
-      {this.show,
+      {this.show = false,
       this.padding,
       this.style,
       this.showLeft,
