@@ -165,12 +165,16 @@ class _PieChartState extends AnimatedWidgetBaseState<PieChart> {
                   badgeWidgetsOffsets: _badgeWidgetsOffsets,
                 ),
                 children: List.generate(
-                  _badgeWidgetsOffsets.length > widget.data.sections.length
-                      ? widget.data.sections.length
-                      : _badgeWidgetsOffsets.length,
+                  _badgeWidgetsOffsets.length,
                   (index) {
                     final int _key = _badgeWidgetsOffsets.keys.elementAt(index);
-                    final Widget _badgeWidget = widget.data.sections[_key].badgeWidget;
+                    Widget _badgeWidget;
+
+                    try {
+                      _badgeWidget = widget.data.sections[_key].badgeWidget;
+                    } catch (e) {
+                      print(e);
+                    }
 
                     if (_badgeWidget == null) {
                       return null;
