@@ -279,16 +279,11 @@ class AxisSideMetaData {
   double get diff => maxValue - minValue;
 }
 
-class AxisSideTitleMetaData with EquatableMixin {
+@Equatable()
+class AxisSideTitleMetaData {
   AxisSideTitleMetaData(this.axisValue, this.axisPixelLocation);
   final double axisValue;
   final double axisPixelLocation;
-
-  @override
-  List<Object?> get props => [
-        axisValue,
-        axisPixelLocation,
-      ];
 }
 
 class AxisSideTitleWidgetHolder {

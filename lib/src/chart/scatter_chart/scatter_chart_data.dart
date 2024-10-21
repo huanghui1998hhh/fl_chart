@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 ///
 /// It holds data needed to draw a scatter chart,
 /// including background color, scatter spots, ...
-class ScatterChartData extends AxisChartData with EquatableMixin {
+@Equatable()
+class ScatterChartData extends AxisChartData {
   /// [ScatterChart] draws some points in a square space,
   /// points are defined by [scatterSpots],
   ///
@@ -159,33 +160,11 @@ class ScatterChartData extends AxisChartData with EquatableMixin {
         backgroundColor: backgroundColor ?? this.backgroundColor,
         scatterLabelSettings: scatterLabelSettings ?? this.scatterLabelSettings,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        scatterSpots,
-        scatterTouchData,
-        showingTooltipIndicators,
-        gridData,
-        titlesData,
-        rangeAnnotations,
-        minX,
-        maxX,
-        baselineX,
-        minY,
-        maxY,
-        baselineY,
-        rangeAnnotations,
-        scatterLabelSettings,
-        clipData,
-        backgroundColor,
-        borderData,
-        touchData,
-      ];
 }
 
 /// Defines information about a spot in the [ScatterChart]
-class ScatterSpot extends FlSpot with EquatableMixin {
+@Equatable()
+class ScatterSpot extends FlSpot {
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
@@ -240,15 +219,6 @@ class ScatterSpot extends FlSpot with EquatableMixin {
         show: b.show,
         dotPainter: a.dotPainter.lerp(a.dotPainter, b.dotPainter, t),
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        x,
-        y,
-        show,
-        dotPainter,
-      ];
 }
 
 /// Holds data to handle touch events, and touch responses in the [ScatterChart].
@@ -256,8 +226,8 @@ class ScatterSpot extends FlSpot with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [ScatterTouchResponse].
-class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
-    with EquatableMixin {
+@Equatable()
+class ScatterTouchData extends FlTouchData<ScatterTouchResponse> {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -321,18 +291,6 @@ class ScatterTouchData extends FlTouchData<ScatterTouchResponse>
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
         touchSpotThreshold: touchSpotThreshold ?? this.touchSpotThreshold,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        enabled,
-        touchCallback,
-        mouseCursorResolver,
-        longPressDuration,
-        touchTooltipData,
-        touchSpotThreshold,
-        handleBuiltInTouches,
-      ];
 }
 
 /// [ScatterChart]'s touch callback.
@@ -361,7 +319,8 @@ class ScatterTouchResponse extends BaseTouchResponse {
 }
 
 /// Holds the touched spot data
-class ScatterTouchedSpot with EquatableMixin {
+@Equatable()
+class ScatterTouchedSpot {
   /// [spot], and [spotIndex] tells you
   /// in which spot (of [ScatterChartData.scatterSpots]) touch happened.
   const ScatterTouchedSpot(this.spot, this.spotIndex);
@@ -371,13 +330,6 @@ class ScatterTouchedSpot with EquatableMixin {
 
   /// Touch happened on this spot index
   final int spotIndex;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        spot,
-        spotIndex,
-      ];
 
   /// Copies current [ScatterTouchedSpot] to a new [ScatterTouchedSpot],
   /// and replaces provided values.
@@ -389,7 +341,8 @@ class ScatterTouchedSpot with EquatableMixin {
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
-class ScatterTouchTooltipData with EquatableMixin {
+@Equatable()
+class ScatterTouchTooltipData {
   /// if [ScatterTouchData.handleBuiltInTouches] is true,
   /// [ScatterChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [ScatterChartData.showingTooltipIndicators].
@@ -461,22 +414,6 @@ class ScatterTouchTooltipData with EquatableMixin {
 
   /// Retrieves data for showing content inside the tooltip.
   final GetScatterTooltipColor getTooltipColor;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        tooltipRoundedRadius,
-        tooltipPadding,
-        tooltipHorizontalAlignment,
-        tooltipHorizontalOffset,
-        maxContentWidth,
-        getTooltipItems,
-        fitInsideHorizontally,
-        fitInsideVertically,
-        rotateAngle,
-        tooltipBorder,
-        getTooltipColor,
-      ];
 
   /// Copies current [ScatterTouchTooltipData] to a new [ScatterTouchTooltipData],
   /// and replaces provided values.
@@ -555,7 +492,8 @@ Color defaultScatterTooltipColor(ScatterSpot touchedSpot) =>
     Colors.blueGrey.darken(15);
 
 /// Holds data of showing each item in the tooltip popup.
-class ScatterTooltipItem with EquatableMixin {
+@Equatable()
+class ScatterTooltipItem {
   /// Shows a [text] with [textStyle], [textDirection],  and optional [children] in the tooltip popup,
   /// [bottomMargin] is the bottom space from spot.
   ScatterTooltipItem(
@@ -586,17 +524,6 @@ class ScatterTooltipItem with EquatableMixin {
 
   /// List<TextSpan> add further style and format to the text of the tooltip
   final List<TextSpan>? children;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        text,
-        textStyle,
-        bottomMargin,
-        textAlign,
-        textDirection,
-        children,
-      ];
 
   /// Copies current [ScatterTooltipItem] to a new [ScatterTooltipItem],
   /// and replaces provided values.
@@ -658,7 +585,8 @@ String getDefaultLabelFunction(
     spot.defaultLabel;
 
 /// Defines information about the labels in the [ScatterChart]
-class ScatterLabelSettings with EquatableMixin {
+@Equatable()
+class ScatterLabelSettings {
   /// You can change [showLabel] value to show or hide the label,
   /// [textStyle] defines the style of label in the [ScatterChart].
   ScatterLabelSettings({
@@ -711,13 +639,4 @@ class ScatterLabelSettings with EquatableMixin {
         getLabelFunction: b.getLabelFunction,
         textDirection: b.textDirection,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        showLabel,
-        getLabelTextStyleFunction,
-        getLabelFunction,
-        textDirection,
-      ];
 }

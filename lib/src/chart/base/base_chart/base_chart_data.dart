@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 ///
 /// In this phase we draw the border,
 /// and handle touches in an abstract way.
-abstract class BaseChartData with EquatableMixin {
+@Equatable()
+abstract class BaseChartData {
   /// It draws 4 borders around your chart, you can customize it using [borderData],
   /// [touchData] defines the touch behavior and responses.
   BaseChartData({
@@ -26,17 +27,11 @@ abstract class BaseChartData with EquatableMixin {
   FlTouchData touchData;
 
   BaseChartData lerp(BaseChartData a, BaseChartData b, double t);
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        borderData,
-        touchData,
-      ];
 }
 
 /// Holds data to drawing border around the chart.
-class FlBorderData with EquatableMixin {
+@Equatable()
+class FlBorderData {
   /// [show] Determines showing or hiding border around the chart.
   /// [border] Determines the visual look of 4 borders, see [Border].
   FlBorderData({
@@ -67,13 +62,6 @@ class FlBorderData with EquatableMixin {
         show: show ?? this.show,
         border: border ?? this.border,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        show,
-        border,
-      ];
 }
 
 /// Holds data to handle touch events, and touch responses in abstract way.
@@ -81,7 +69,8 @@ class FlBorderData with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [BaseTouchResponse].
-abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
+@Equatable()
+abstract class FlTouchData<R extends BaseTouchResponse> {
   /// You can disable or enable the touch system using [enabled] flag,
   const FlTouchData(
     this.enabled,
@@ -106,19 +95,11 @@ abstract class FlTouchData<R extends BaseTouchResponse> with EquatableMixin {
   /// This property that allows to customize the duration of the longPress gesture.
   /// default to 500 milliseconds refer to [kLongPressTimeout].
   final Duration? longPressDuration;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        enabled,
-        touchCallback,
-        mouseCursorResolver,
-        longPressDuration,
-      ];
 }
 
 /// Holds data to clipping chart around its borders.
-class FlClipData with EquatableMixin {
+@Equatable()
+class FlClipData {
   /// Creates data that clips specified sides
   const FlClipData({
     required this.top,
@@ -165,10 +146,6 @@ class FlClipData with EquatableMixin {
         left: left ?? this.left,
         right: right ?? this.right,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [top, bottom, left, right];
 }
 
 /// Chart's touch callback.

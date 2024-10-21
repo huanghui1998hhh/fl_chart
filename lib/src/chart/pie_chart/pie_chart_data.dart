@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 ///
 /// It holds data needed to draw a pie chart,
 /// including pie sections, colors, ...
-class PieChartData extends BaseChartData with EquatableMixin {
+@Equatable()
+class PieChartData extends BaseChartData {
   /// [PieChart] draws some [sections] in a circle,
   /// and applies free space with radius [centerSpaceRadius],
   /// and color [centerSpaceColor] in the center of the circle,
@@ -119,19 +120,6 @@ class PieChartData extends BaseChartData with EquatableMixin {
       throw Exception('Illegal State');
     }
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        sections,
-        centerSpaceRadius,
-        centerSpaceColor,
-        pieTouchData,
-        sectionsSpace,
-        startDegreeOffset,
-        borderData,
-        titleSunbeamLayout,
-      ];
 }
 
 /// Holds data related to drawing each [PieChart] section.
@@ -290,7 +278,8 @@ class PieChartSectionData {
 /// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [PieTouchResponse].
-class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
+@Equatable()
+class PieTouchData extends FlTouchData<PieTouchResponse> {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -311,18 +300,10 @@ class PieTouchData extends FlTouchData<PieTouchResponse> with EquatableMixin {
           mouseCursorResolver,
           longPressDuration,
         );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        enabled,
-        touchCallback,
-        mouseCursorResolver,
-        longPressDuration,
-      ];
 }
 
-class PieTouchedSection with EquatableMixin {
+@Equatable()
+class PieTouchedSection {
   /// This class Contains [touchedSection], [touchedSectionIndex] that tells
   /// you touch happened on which section,
   /// [touchAngle] gives you angle of touch,
@@ -345,15 +326,6 @@ class PieTouchedSection with EquatableMixin {
 
   /// touch happened with this radius on the [PieChart]
   final double touchRadius;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        touchedSection,
-        touchedSectionIndex,
-        touchAngle,
-        touchRadius,
-      ];
 }
 
 /// Holds information about touch response in the [PieChart].

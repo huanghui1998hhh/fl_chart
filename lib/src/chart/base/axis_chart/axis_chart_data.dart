@@ -13,7 +13,8 @@ import 'package:flutter/material.dart' hide Image;
 /// we use them to determine how much is the scale of chart,
 /// and calculate x and y according to the scale.
 /// each child have to set it in their constructor.
-abstract class AxisChartData extends BaseChartData with EquatableMixin {
+@Equatable()
+abstract class AxisChartData extends BaseChartData {
   AxisChartData({
     FlGridData? gridData,
     required this.titlesData,
@@ -61,25 +62,6 @@ abstract class AxisChartData extends BaseChartData with EquatableMixin {
 
   /// Extra horizontal or vertical lines to draw on the chart.
   final ExtraLinesData extraLinesData;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        gridData,
-        titlesData,
-        rangeAnnotations,
-        minX,
-        maxX,
-        baselineX,
-        minY,
-        maxY,
-        baselineY,
-        clipData,
-        backgroundColor,
-        borderData,
-        touchData,
-        extraLinesData,
-      ];
 }
 
 /// Represents a side of the chart
@@ -140,7 +122,8 @@ Widget defaultGetTitle(double value, TitleMeta meta) {
 }
 
 /// Holds data for showing label values on axis numbers
-class SideTitles with EquatableMixin {
+@Equatable()
+class SideTitles {
   /// It draws some title on an axis, per axis values,
   /// [showTitles] determines showing or hiding this side,
   ///
@@ -216,17 +199,6 @@ class SideTitles with EquatableMixin {
         minIncluded: minIncluded ?? this.minIncluded,
         maxIncluded: maxIncluded ?? this.maxIncluded,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        showTitles,
-        getTitlesWidget,
-        reservedSize,
-        interval,
-        minIncluded,
-        maxIncluded,
-      ];
 }
 
 /// Force child widget to be positioned inside its
@@ -235,7 +207,8 @@ class SideTitles with EquatableMixin {
 /// To makes things simpler, it's recommended to use
 /// [SideTitleFitInsideData.fromTitleMeta] and pass the
 /// TitleMeta provided from [SideTitles.getTitlesWidget]
-class SideTitleFitInsideData with EquatableMixin {
+@Equatable()
+class SideTitleFitInsideData {
   /// Force child widget to be positioned inside its
   /// corresponding axis bounding box
   ///
@@ -291,18 +264,11 @@ class SideTitleFitInsideData with EquatableMixin {
   /// The position (in pixel) that applied to
   /// the child widget along its corresponding axis.
   final double axisPosition;
-
-  @override
-  List<Object?> get props => [
-        enabled,
-        distanceFromEdge,
-        parentAxisSize,
-        axisPosition,
-      ];
 }
 
 /// Holds data for showing each side titles (left, top, right, bottom)
-class AxisTitles with EquatableMixin {
+@Equatable()
+class AxisTitles {
   /// you can provide [axisName] if you want to show a general
   /// label on this axis,
   ///
@@ -360,19 +326,11 @@ class AxisTitles with EquatableMixin {
         sideTitles: sideTitles ?? this.sideTitles,
         drawBelowEverything: drawBelowEverything ?? this.drawBelowEverything,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        axisNameWidget,
-        axisNameSize,
-        sideTitles,
-        drawBelowEverything,
-      ];
 }
 
 /// Holds data for showing titles on each side of charts.
-class FlTitlesData with EquatableMixin {
+@Equatable()
+class FlTitlesData {
   /// [show] determines showing or hiding all titles,
   /// [leftTitles], [topTitles], [rightTitles], [bottomTitles] defines
   /// side titles of left, top, right, bottom sides respectively.
@@ -436,16 +394,6 @@ class FlTitlesData with EquatableMixin {
         rightTitles: rightTitles ?? this.rightTitles,
         bottomTitles: bottomTitles ?? this.bottomTitles,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        show,
-        leftTitles,
-        topTitles,
-        rightTitles,
-        bottomTitles,
-      ];
 }
 
 /// Represents a conceptual position in cartesian (axis based) space.
@@ -525,7 +473,8 @@ class FlSpot {
 }
 
 /// Responsible to hold grid data,
-class FlGridData with EquatableMixin {
+@Equatable()
+class FlGridData {
   /// Responsible for rendering grid lines behind the content of charts,
   /// [show] determines showing or hiding all grids,
   ///
@@ -636,20 +585,6 @@ class FlGridData with EquatableMixin {
         checkToShowVerticalLine:
             checkToShowVerticalLine ?? this.checkToShowVerticalLine,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        show,
-        drawHorizontalLine,
-        horizontalInterval,
-        getDrawingHorizontalLine,
-        checkToShowHorizontalLine,
-        drawVerticalLine,
-        verticalInterval,
-        getDrawingVerticalLine,
-        checkToShowVerticalLine,
-      ];
 }
 
 /// Determines showing or hiding specified line.
@@ -672,7 +607,8 @@ FlLine defaultGridLine(double value) => const FlLine(
     );
 
 /// Defines style of a line.
-class FlLine with EquatableMixin {
+@Equatable()
+class FlLine {
   /// Renders a line, color it by [color],
   /// thickness is defined by [strokeWidth],
   /// and if you want to have dashed line, you should fill [dashArray],
@@ -725,19 +661,11 @@ class FlLine with EquatableMixin {
         strokeWidth: strokeWidth ?? this.strokeWidth,
         dashArray: dashArray ?? this.dashArray,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        color,
-        gradient,
-        strokeWidth,
-        dashArray,
-      ];
 }
 
 /// holds information about touched spot on the axis based charts.
-abstract class TouchedSpot with EquatableMixin {
+@Equatable()
+abstract class TouchedSpot {
   /// [spot]  represents the spot inside our axis based chart,
   /// 0, 0 is bottom left, and 1, 1 is top right.
   ///
@@ -755,17 +683,11 @@ abstract class TouchedSpot with EquatableMixin {
   /// Represents the touch position in device pixels,
   /// 0, 0 is top, left, and 1, 1 is bottom right.
   final Offset offset;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        spot,
-        offset,
-      ];
 }
 
 /// Holds data for rendering horizontal and vertical range annotations.
-class RangeAnnotations with EquatableMixin {
+@Equatable()
+class RangeAnnotations {
   /// Axis based charts can annotate some horizontal and vertical regions,
   /// using [horizontalRangeAnnotations], and [verticalRangeAnnotations] respectively.
   const RangeAnnotations({
@@ -807,17 +729,11 @@ class RangeAnnotations with EquatableMixin {
         verticalRangeAnnotations:
             verticalRangeAnnotations ?? this.verticalRangeAnnotations,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        horizontalRangeAnnotations,
-        verticalRangeAnnotations,
-      ];
 }
 
 /// Defines an annotation region in y (vertical) axis.
-class HorizontalRangeAnnotation with EquatableMixin {
+@Equatable()
+class HorizontalRangeAnnotation {
   /// Annotates a horizontal region from most left to most right point of the chart, and
   /// from [y1] to [y2], and fills the area with [color] or [gradient].
   HorizontalRangeAnnotation({
@@ -873,19 +789,11 @@ class HorizontalRangeAnnotation with EquatableMixin {
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        y1,
-        y2,
-        color,
-        gradient,
-      ];
 }
 
 /// Defines an annotation region in x (horizontal) axis.
-class VerticalRangeAnnotation with EquatableMixin {
+@Equatable()
+class VerticalRangeAnnotation {
   /// Annotates a vertical region from most bottom to most top point of the chart, and
   /// from [x1] to [x2], and fills the area with [color] or [gradient].
   VerticalRangeAnnotation({
@@ -941,22 +849,14 @@ class VerticalRangeAnnotation with EquatableMixin {
         color: color ?? this.color,
         gradient: gradient ?? this.gradient,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        x1,
-        x2,
-        color,
-        gradient,
-      ];
 }
 
 /// Holds data for drawing extra horizontal lines.
 ///
 /// [LineChart] draws some [HorizontalLine] (set by [LineChartData.extraLinesData]),
 /// in below or above of everything, it draws from left to right side of the chart.
-class HorizontalLine extends FlLine with EquatableMixin {
+@Equatable()
+class HorizontalLine extends FlLine {
   /// [LineChart] draws horizontal lines from left to right side of the chart
   /// in the provided [y] value, and color it using [color].
   /// You can define the thickness using [strokeWidth]
@@ -1008,26 +908,14 @@ class HorizontalLine extends FlLine with EquatableMixin {
         sizedPicture: b.sizedPicture,
         strokeCap: b.strokeCap,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        y,
-        label,
-        color,
-        strokeWidth,
-        dashArray,
-        image,
-        sizedPicture,
-        strokeCap,
-      ];
 }
 
 /// Holds data for drawing extra vertical lines.
 ///
 /// [LineChart] draws some [VerticalLine] (set by [LineChartData.extraLinesData]),
 /// in below or above of everything, it draws from bottom to top side of the chart.
-class VerticalLine extends FlLine with EquatableMixin {
+@Equatable()
+class VerticalLine extends FlLine {
   /// [LineChart] draws vertical lines from bottom to top side of the chart
   /// in the provided [x] value, and color it using [color].
   /// You can define the thickness using [strokeWidth]
@@ -1102,23 +990,11 @@ class VerticalLine extends FlLine with EquatableMixin {
         sizedPicture: sizedPicture ?? this.sizedPicture,
         strokeCap: strokeCap ?? this.strokeCap,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        x,
-        label,
-        color,
-        strokeWidth,
-        dashArray,
-        image,
-        sizedPicture,
-        strokeCap,
-      ];
 }
 
 /// Draws a title on the [HorizontalLine]
-class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
+@Equatable()
+class HorizontalLineLabel extends FlLineLabel {
   /// Draws a title on the [HorizontalLine], align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style for changing color,
   /// size, ... of the text.
@@ -1160,21 +1036,11 @@ class HorizontalLineLabel extends FlLineLabel with EquatableMixin {
         show: b.show,
         direction: b.direction,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        labelResolver,
-        show,
-        padding,
-        style,
-        alignment,
-        direction,
-      ];
 }
 
 /// Draws a title on the [VerticalLine]
-class VerticalLineLabel extends FlLineLabel with EquatableMixin {
+@Equatable()
+class VerticalLineLabel extends FlLineLabel {
   /// Draws a title on the [VerticalLine], align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style for changing color,
   /// size, ... of the text.
@@ -1220,17 +1086,6 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
         show: b.show,
         direction: b.direction,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        labelResolver,
-        show,
-        padding,
-        style,
-        alignment,
-        direction,
-      ];
 }
 
 /// Holds data for showing a vector image inside the chart.
@@ -1244,7 +1099,8 @@ class VerticalLineLabel extends FlLineLabel with EquatableMixin {
 ///    return sizedPicture;
 ///  }
 /// ```
-class SizedPicture with EquatableMixin {
+@Equatable()
+class SizedPicture {
   /// [picture] is the showing image,
   /// it can retrieve from a svg icon,
   /// for example:
@@ -1264,18 +1120,11 @@ class SizedPicture with EquatableMixin {
 
   /// height of our [picture].
   int height;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        picture,
-        width,
-        height,
-      ];
 }
 
 /// Draws some straight horizontal or vertical lines in the [LineChart]
-class ExtraLinesData with EquatableMixin {
+@Equatable()
+class ExtraLinesData {
   /// [LineChart] draws some straight horizontal or vertical lines,
   /// you should set [LineChartData.extraLinesData].
   /// Draws horizontal lines using [horizontalLines],
@@ -1302,18 +1151,11 @@ class ExtraLinesData with EquatableMixin {
         verticalLines:
             lerpVerticalLineList(a.verticalLines, b.verticalLines, t)!,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        horizontalLines,
-        verticalLines,
-        extraLinesOnTop,
-      ];
 }
 
 /// This class contains the interface that all DotPainters should conform to.
-abstract class FlDotPainter with EquatableMixin {
+@Equatable()
+abstract class FlDotPainter {
   const FlDotPainter();
 
   /// This method should be overridden to draw the dot shape.
@@ -1433,15 +1275,6 @@ class FlDotCirclePainter extends FlDotPainter {
     final distance = (touched - center).distance.abs();
     return distance < radius + extraThreshold;
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        color,
-        radius,
-        strokeColor,
-        strokeWidth,
-      ];
 }
 
 /// This class is an implementation of a [FlDotPainter] that draws
@@ -1503,15 +1336,6 @@ class FlDotSquarePainter extends FlDotPainter {
 
   @override
   Color get mainColor => color;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        color,
-        size,
-        strokeColor,
-        strokeWidth,
-      ];
 
   FlDotSquarePainter _lerp(
     FlDotSquarePainter a,
@@ -1598,12 +1422,4 @@ class FlDotCrossPainter extends FlDotPainter {
     }
     return _lerp(a, b, t);
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        color,
-        size,
-        width,
-      ];
 }

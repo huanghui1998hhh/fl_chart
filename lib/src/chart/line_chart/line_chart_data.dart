@@ -12,7 +12,8 @@ import 'package:flutter/material.dart' hide Image;
 ///
 /// It holds data needed to draw a line chart,
 /// including bar lines, spots, colors, touches, ...
-class LineChartData extends AxisChartData with EquatableMixin {
+@Equatable()
+class LineChartData extends AxisChartData {
   /// [LineChart] draws some lines in various shapes and overlaps them.
   /// lines are defined in [lineBarsData], sometimes you need to fill space between two bars
   /// with a color or gradient, you can use [betweenBarsData] to achieve that.
@@ -156,32 +157,11 @@ class LineChartData extends AxisChartData with EquatableMixin {
         clipData: clipData ?? this.clipData,
         backgroundColor: backgroundColor ?? this.backgroundColor,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        lineBarsData,
-        betweenBarsData,
-        titlesData,
-        extraLinesData,
-        lineTouchData,
-        showingTooltipIndicators,
-        gridData,
-        borderData,
-        rangeAnnotations,
-        minX,
-        maxX,
-        baselineX,
-        minY,
-        maxY,
-        baselineY,
-        clipData,
-        backgroundColor,
-      ];
 }
 
 /// Holds data for drawing each individual line in the [LineChart]
-class LineChartBarData with EquatableMixin {
+@Equatable()
+class LineChartBarData {
   /// [BarChart] draws some lines and overlaps them in the chart's view,
   /// You can have multiple lines by splitting them,
   /// put a [FlSpot.nullSpot] between each section.
@@ -444,34 +424,11 @@ class LineChartBarData with EquatableMixin {
         isStepLineChart: isStepLineChart ?? this.isStepLineChart,
         lineChartStepData: lineChartStepData ?? this.lineChartStepData,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        spots,
-        show,
-        color,
-        gradient,
-        barWidth,
-        isCurved,
-        curveSmoothness,
-        preventCurveOverShooting,
-        preventCurveOvershootingThreshold,
-        isStrokeCapRound,
-        isStrokeJoinRound,
-        belowBarData,
-        aboveBarData,
-        dotData,
-        showingIndicators,
-        dashArray,
-        shadow,
-        isStepLineChart,
-        lineChartStepData,
-      ];
 }
 
 /// Holds data for representing a Step Line Chart, and works only if [LineChartBarData.isStepChart] is true.
-class LineChartStepData with EquatableMixin {
+@Equatable()
+class LineChartStepData {
   /// Determines the [stepDirection] of each step;
   const LineChartStepData({this.stepDirection = stepDirectionMiddle});
 
@@ -496,14 +453,11 @@ class LineChartStepData with EquatableMixin {
       LineChartStepData(
         stepDirection: lerpDouble(a.stepDirection, b.stepDirection, t)!,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [stepDirection];
 }
 
 /// Holds data for filling an area (above or below) of the line with a color or gradient.
-class BarAreaData with EquatableMixin {
+@Equatable()
+class BarAreaData {
   /// if [show] is true, [LineChart] fills above and below area of each line
   /// with a color or gradient.
   ///
@@ -562,21 +516,11 @@ class BarAreaData with EquatableMixin {
         cutOffY: lerpDouble(a.cutOffY, b.cutOffY, t)!,
         applyCutOffY: b.applyCutOffY,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        show,
-        color,
-        gradient,
-        spotsLine,
-        cutOffY,
-        applyCutOffY,
-      ];
 }
 
 /// Holds data about filling below or above space of the bar line,
-class BetweenBarsData with EquatableMixin {
+@Equatable()
+class BetweenBarsData {
   BetweenBarsData({
     required this.fromIndex,
     required this.toIndex,
@@ -612,19 +556,11 @@ class BetweenBarsData with EquatableMixin {
       gradient: Gradient.lerp(a.gradient, b.gradient, t),
     );
   }
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        fromIndex,
-        toIndex,
-        color,
-        gradient,
-      ];
 }
 
 /// Holds data for drawing line on the spots under the [BarAreaData].
-class BarAreaSpotsLine with EquatableMixin {
+@Equatable()
+class BarAreaSpotsLine {
   /// If [show] is true, [LineChart] draws some lines on above or below the spots,
   /// you can customize the appearance of the lines using [flLineStyle]
   /// and you can decide to show or hide the lines on each spot using [checkToShowSpotLine].
@@ -659,15 +595,6 @@ class BarAreaSpotsLine with EquatableMixin {
         flLineStyle: FlLine.lerp(a.flLineStyle, b.flLineStyle, t),
         applyCutOffY: b.applyCutOffY,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        show,
-        flLineStyle,
-        checkToShowSpotLine,
-        applyCutOffY,
-      ];
 }
 
 /// It used for determine showing or hiding [BarAreaSpotsLine]s
@@ -747,7 +674,8 @@ FlDotPainter _defaultGetDotPainter(
     );
 
 /// This class holds data about drawing spot dots on the drawing bar line.
-class FlDotData with EquatableMixin {
+@Equatable()
+class FlDotData {
   /// set [show] false to prevent dots from drawing,
   /// if you want to show or hide dots in some spots,
   /// override [checkToShowDot] to handle it in your way.
@@ -773,14 +701,6 @@ class FlDotData with EquatableMixin {
         checkToShowDot: b.checkToShowDot,
         getDotPainter: b.getDotPainter,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        show,
-        checkToShowDot,
-        getDotPainter,
-      ];
 }
 
 /// It determines showing or hiding [FlDotData] on the spots.
@@ -795,7 +715,8 @@ bool showAllDots(FlSpot spot, LineChartBarData barData) => true;
 enum LabelDirection { horizontal, vertical }
 
 /// Shows a text label
-abstract class FlLineLabel with EquatableMixin {
+@Equatable()
+abstract class FlLineLabel {
   /// Draws a title on the line, align it with [alignment] over the line,
   /// applies [padding] for spaces, and applies [style] for changing color,
   /// size, ... of the text.
@@ -823,16 +744,6 @@ abstract class FlLineLabel with EquatableMixin {
 
   /// Determines the direction of the text.
   final LabelDirection direction;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        show,
-        padding,
-        style,
-        alignment,
-        direction,
-      ];
 }
 
 /// Holds data to handle touch events, and touch responses in the [LineChart].
@@ -840,7 +751,8 @@ abstract class FlLineLabel with EquatableMixin {
 /// There is a touch flow, explained [here](https://github.com/imaNNeo/fl_chart/blob/main/repo_files/documentations/handle_touches.md)
 /// in a simple way, each chart's renderer captures the touch events, and passes the pointerEvent
 /// to the painter, and gets touched spot, and wraps it into a concrete [LineTouchResponse].
-class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
+@Equatable()
+class LineTouchData extends FlTouchData<LineTouchResponse> {
   /// You can disable or enable the touch system using [enabled] flag,
   ///
   /// [touchCallback] notifies you about the happened touch/pointer events.
@@ -930,22 +842,6 @@ class LineTouchData extends FlTouchData<LineTouchResponse> with EquatableMixin {
         getTouchLineEnd: getTouchLineEnd ?? this.getTouchLineEnd,
         handleBuiltInTouches: handleBuiltInTouches ?? this.handleBuiltInTouches,
       );
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        enabled,
-        touchCallback,
-        mouseCursorResolver,
-        longPressDuration,
-        touchTooltipData,
-        getTouchedSpotIndicator,
-        touchSpotThreshold,
-        distanceCalculator,
-        handleBuiltInTouches,
-        getTouchLineStart,
-        getTouchLineEnd,
-      ];
 }
 
 /// Used for showing touch indicators (a thicker line and larger dot on the targeted spot).
@@ -1012,7 +908,8 @@ double defaultGetTouchLineEnd(LineChartBarData barData, int spotIndex) =>
     barData.spots[spotIndex].y;
 
 /// Holds representation data for showing tooltip popup on top of spots.
-class LineTouchTooltipData with EquatableMixin {
+@Equatable()
+class LineTouchTooltipData {
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a tooltip popup on top of spots automatically when touch happens,
   /// otherwise you can show it manually using [LineChartData.showingTooltipIndicators].
@@ -1081,24 +978,6 @@ class LineTouchTooltipData with EquatableMixin {
 
   // /// Retrieves data for setting background color of the tooltip.
   final GetLineTooltipColor getTooltipColor;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        tooltipRoundedRadius,
-        tooltipPadding,
-        tooltipMargin,
-        tooltipHorizontalAlignment,
-        tooltipHorizontalOffset,
-        maxContentWidth,
-        getTooltipItems,
-        fitInsideHorizontally,
-        fitInsideVertically,
-        showOnTopOfTheChartBoxArea,
-        rotateAngle,
-        tooltipBorder,
-        getTooltipColor,
-      ];
 }
 
 /// Provides a [LineTooltipItem] for showing content inside the [LineTouchTooltipData].
@@ -1140,7 +1019,8 @@ Color defaultLineTooltipColor(LineBarSpot touchedSpot) =>
     Colors.blueGrey.darken(15);
 
 /// Represent a targeted spot inside a line bar.
-class LineBarSpot extends FlSpot with EquatableMixin {
+@Equatable()
+class LineBarSpot extends FlSpot {
   /// [bar] is the [LineChartBarData] that this spot is inside of,
   /// [barIndex] is the index of our [bar], in the [LineChartData.lineBarsData] list,
   /// [spot] is the targeted spot.
@@ -1160,16 +1040,6 @@ class LineBarSpot extends FlSpot with EquatableMixin {
 
   /// Is the index of our [super.spot], in the [LineChartBarData.spots] list.
   final int spotIndex;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        bar,
-        barIndex,
-        spotIndex,
-        x,
-        y,
-      ];
 }
 
 /// A [LineBarSpot] that holds information about the event that selected it
@@ -1186,7 +1056,8 @@ class TouchLineBarSpot extends LineBarSpot {
 }
 
 /// Holds data of showing each row item in the tooltip popup.
-class LineTooltipItem with EquatableMixin {
+@Equatable()
+class LineTooltipItem {
   /// Shows a [text] with [textStyle], [textDirection],
   /// and optional [children] as a row in the tooltip popup.
   const LineTooltipItem(
@@ -1211,22 +1082,13 @@ class LineTooltipItem with EquatableMixin {
 
   /// List<TextSpan> add further style and format to the text of the tooltip
   final List<TextSpan>? children;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        text,
-        textStyle,
-        textAlign,
-        textDirection,
-        children,
-      ];
 }
 
 /// details of showing indicator when touch happened on [LineChart]
 /// [indicatorBelowLine] we draw a vertical line below of the touched spot
 /// [touchedSpotDotData] we draw a larger dot on the touched spot to bold it
-class TouchedSpotIndicatorData with EquatableMixin {
+@Equatable()
+class TouchedSpotIndicatorData {
   /// if [LineTouchData.handleBuiltInTouches] is true,
   /// [LineChart] shows a thicker line and larger spot as indicator automatically when touch happens,
   /// otherwise you can show it manually using [LineChartBarData.showingIndicators].
@@ -1242,27 +1104,17 @@ class TouchedSpotIndicatorData with EquatableMixin {
 
   /// Determines dot's style.
   final FlDotData touchedSpotDotData;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [
-        indicatorBelowLine,
-        touchedSpotDotData,
-      ];
 }
 
 /// Holds data for showing tooltips over a line
-class ShowingTooltipIndicators with EquatableMixin {
+@Equatable()
+class ShowingTooltipIndicators {
   /// [LineChart] shows some tooltips over each [LineChartBarData],
   /// and [showingSpots] determines in which spots this tooltip should be shown.
   const ShowingTooltipIndicators(this.showingSpots);
 
   /// Determines the spots that each tooltip should be shown.
   final List<LineBarSpot> showingSpots;
-
-  /// Used for equality check, see [EquatableMixin].
-  @override
-  List<Object?> get props => [showingSpots];
 }
 
 /// Holds information about touch response in the [LineChart].

@@ -1,6 +1,7 @@
 part of 'app_cubit.dart';
 
-class AppState extends Equatable {
+@Equatable()
+class AppState {
   final PackageInfo? currentPackageInfo;
   final String availableVersionToUpdate;
   final String usingFlChartVersion;
@@ -24,11 +25,4 @@ class AppState extends Equatable {
       usingFlChartVersion ?? this.usingFlChartVersion,
     );
   }
-
-  @override
-  List<Object?> get props => [
-        currentPackageInfo,
-        availableVersionToUpdate,
-        usingFlChartVersion,
-      ];
 }
